@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+   <title>Daily activity tracker</title>
+   <style type="text/css">
+      body .ui-datatable .ui-datatable-data > tr > td .red{
+         background-color: red;
+         color: white;
+      }
+      .ui-button.downshift{
+         position: relative;
+         left: 0px;
+         bottom: -12px;
+         margin-bottom: 5px;
+      }
+      .ui-widget.center {
+         margin: auto;
+         width: 50%;
+         padding: 10px;
+      }
+
+      .redClass{
+         padding: 0;
+         margin: 0;
+         background: salmon;
+      }
+
+   </style>
+</h:head>
+
+<h:body>
+   <!-- ===================== TOOLBAR ====================== -->
+   <p:toolbar style="width: 75%; margin: auto;">
+      <p:toolbarGroup>
+         <p:outputLabel value="Welcome, #{mainController.userData.name()} #{mainController.userData.surname()}"
+                        style="font-weight:bold"/>
+         <p:divider layout="vertical"/>
+      </p:toolbarGroup>
+      <p:toolbarGroup>
+         <p:button id="account" style="margin-right: .5em" value="Account" icon="pi pi-id-card" disabled="false" styleClass="ui-button-secondary" />
+         <p:button href="/logout" value="Log out" icon="pi pi-sign-out" styleClass="ui-button-outlined  ui-button-secondary" />
+      </p:toolbarGroup>
+   </p:toolbar>
+   <!-- ===================== MESSAGES OUTPUT ====================== -->
+   <p:growl id="messages" showDetail="false" closable="true"  style="width: 80%; margin: auto;">
+      <p:autoUpdate/>
+   </p:growl>
+   <!-- ===================== THERE IS ORDER PART ====================== -->
+
+      <h:form id="activitiesForm">
+         <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
+                      var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"
+                      widgetVar="activityList" showGridlines="true" style="width: 75%; margin: auto;">
+            <p:column headerText="Activity Name" style="width: auto;">
+               <p:outputLabel value="#{activity.title()}"/>
+            </p:column>
+
+            <p:column headerText="#{mainController.getDateRepresent(-6)}" style="width: 6rem; text-align: center; padding: 2px">
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -6) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.id(), -6)? 'Done' : 'Miss'}" />
+            </p:column>
+            <p:column headerText="#{mainController.getDateRepresent(-5)}" style="width: 6rem; text-align: center; padding: 2px">
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -5) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.id(), -5)? 'Done' : 'Miss'}" />
+            </p:column>
+            <p:column headerText="#{mainController.getDateRepresent(-4)}" style="width: 6rem; text-align: center; padding: 2px">
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -4) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.id(), -4)? 'Done' : 'Miss'}" />
+            </p:column>
+            <p:column headerText="#{mainController.getDateRepresent(-3)}" style="width: 6rem; text-align: center; padding: 2px">
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -3) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.id(), -3)? 'Done' : 'Miss'}" />
+            </p:column>
+            <p:column headerText="#{mainController.getDateRepresent(-2)}" style="width: 6rem; text-align: center; padding: 2px">
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -2) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.id(), -2)? 'Done' : 'Miss'}" />
+            </p:column>
+            <p:column headerText="#{mainController.getDateRepresent(-1)}" style="width: 6rem; text-align: center; padding: 2px">
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -1) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.id(), -1)? 'Done' : 'Miss'}" />
+            </p:column>
+            <p:column headerText="#{mainController.getDateRepresent(0)}" style="width: 6rem; text-align: center; padding: 2px">
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), 0) ? 'yellowgreen' : 'lightgray'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.id(), 0)? 'Done' : 'Wait'}" />
+            </p:column>
+
+
+         </p:dataTable>
+      </h:form>
+</h:body>
+
+</html>
+
