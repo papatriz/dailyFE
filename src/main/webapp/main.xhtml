@@ -43,8 +43,7 @@
         <p:autoUpdate/>
     </p:growl>
     <!-- ===================== THERE IS ORDER PART ====================== -->
-    <p:panel id="mainPanel" header="Today activities" style="width: 80%; margin: auto;" toggleable="false" collapsed="false" toggleableHeader="true" toggleSpeed="200">
-
+    <p:panel id="manageActivitiesPanel" header="Today activities" style="width: 80%; margin: auto;" toggleable="false" collapsed="false" toggleableHeader="true" toggleSpeed="200">
         <h:form id="activitiesForm">
             <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
                          var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"

@@ -32,6 +32,11 @@
          background: salmon;
       }
 
+      .ui-progressbar.ui-progressbar-value.ui-widget-header {
+         background-color: yellow;
+         color: yellowgreen;
+      }
+
    </style>
 </h:head>
 
@@ -52,14 +57,21 @@
    <p:growl id="messages" showDetail="false" closable="true"  style="width: 80%; margin: auto;">
       <p:autoUpdate/>
    </p:growl>
-   <!-- ===================== THERE IS ORDER PART ====================== -->
+   <!-- ===================== ACTIVITIES CHECK LIST ====================== -->
 
-      <h:form id="activitiesForm">
-         <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
+      <h:form id="checkForm">
+         <p:dataTable id="checkDT" reflow="true" rowExpandMode="single" rowHover="true"
                       var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"
                       widgetVar="activityList" showGridlines="true" style="width: 75%; margin: auto;">
-            <p:column headerText="Activity Name" style="width: auto;">
-               <p:outputLabel value="#{activity.title()}"/>
+            <p:column headerText="Activity Name" style="width: auto; margin: fill">
+               <p:toolbar style="background-color: inherit; margin: auto; padding: 0; border-width: 0">
+                  <p:toolbarGroup>
+                     <p:outputLabel value="#{activity.title()}"/>
+                  </p:toolbarGroup>
+                  <p:toolbarGroup>
+                     <p:button icon="pi pi-check" styleClass="ui-button-outlined  ui-button-success" />
+                  </p:toolbarGroup>
+               </p:toolbar>
             </p:column>
 
             <p:column headerText="#{mainController.getDateRepresent(-6)}" style="width: 6rem; text-align: center; padding: 2px">
@@ -90,10 +102,59 @@
                <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), 0) ? 'yellowgreen' : 'lightgray'}; padding-top:14px; padding-bottom:14px;"
                               value="#{mainController.isActivityComplete(activity.id(), 0)? 'Done' : 'Wait'}" />
             </p:column>
-
-
          </p:dataTable>
       </h:form>
+   <!-- ===================== ACTIVITIES MANAGER ====================== -->
+   <p:panel id="manageActivitiesPanel" header="Today activities" style="width: 75%; margin: auto;" toggleable="true" collapsed="true" toggleableHeader="true" toggleSpeed="200">
+      <h:form id="activitiesForm">
+         <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
+                      var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"
+                      widgetVar="activityList" editable="true">
+            <p:ajax event="rowEdit"  update="messages"/>
+            <p:column sortBy="#{activity.title()}" headerText="Activity Name">
+               <p:cellEditor>
+                  <f:facet name="output">
+                     <p:outputLabel value="#{activity.title()}"/></f:facet>
+                  <f:facet name="input">
+                     <p:inputText value="#{activity.title()}" style="width:100%;" label="Name"/>
+                  </f:facet>
+               </p:cellEditor>
+            </p:column>
+            <p:column headerText="Success factor">
+               <p:progressBar value="50" labelTemplate="{value}%" displayOnly="true"  />
+
+            </p:column>
+            <p:column sortBy="#{activity.weight()}" headerText="Weight">
+               <p:cellEditor>
+                  <f:facet name="output">
+                     <p:outputLabel value="#{activity.weight()}"/></f:facet>
+                  <f:facet name="input">
+                     <p:inputText value="#{activity.weight()}" style="width:100%" label="Name"/>
+                  </f:facet>
+               </p:cellEditor>
+            </p:column>
+            <p:column sortBy="#{activity.duration()}" headerText="Duration">
+               <p:cellEditor>
+                  <f:facet name="output">
+                     <p:outputLabel value="#{activity.duration()}"/>
+                  </f:facet>
+                  <f:facet name="input">
+                     <p:inputText value="#{activity.duration()}" style="width:100%" label="Name"/>
+                  </f:facet>
+               </p:cellEditor>
+            </p:column>
+            <p:column headerText="Edit" style="width:5rem" >
+               <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row" />
+            </p:column>
+            <p:column headerText="Delete" style="width:4rem">
+               <p:commandButton process="@this" icon="pi pi-trash" styleClass="rounded-button ui-button-secondary ui-button-outlined"
+                                ajax="true" oncomplete="PF('confirmDelDriver').show()">
+               </p:commandButton>
+            </p:column>
+         </p:dataTable>
+      </h:form>
+   </p:panel>
+
 </h:body>
 
 </html>
