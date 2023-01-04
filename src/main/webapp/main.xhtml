@@ -39,16 +39,19 @@
         </p:toolbarGroup>
     </p:toolbar>
     <!-- ===================== MESSAGES OUTPUT ====================== -->
-    <p:growl id="messages" showDetail="false" closable="true"  style="width: 80%; margin: auto;">
+    <p:growl id="messages" autoUpdate="true" showDetail="false" closable="true"  style="width: 80%; margin: auto;">
         <p:autoUpdate/>
     </p:growl>
     <!-- ===================== THERE IS ORDER PART ====================== -->
     <p:panel id="manageActivitiesPanel" header="Today activities" style="width: 80%; margin: auto;" toggleable="false" collapsed="false" toggleableHeader="true" toggleSpeed="200">
-        <h:form id="activitiesForm">
+        <h:form>
             <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
                          var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"
-                         widgetVar="activityList" editable="true">
-                <p:ajax event="rowEdit"  update="messages"/>
+                         widgetVar="activityList" editable="true" editMode="row">
+                <p:ajax event="rowEdit" listener="#{mainController.onRowEdit}" update="messages"/>
+                <p:ajax event="rowEditCancel" listener="#{mainController.onRowCancel}" update="messages"/>
+
+
                 <p:column sortBy="#{activity.title()}" headerText="Activity Name">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -58,12 +61,16 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
+                <p:column headerText="Success factor">
+                    <p:progressBar value="50" labelTemplate="{value}%" displayOnly="true"  />
+
+                </p:column>
                 <p:column sortBy="#{activity.weight()}" headerText="Weight">
                     <p:cellEditor>
                         <f:facet name="output">
                             <p:outputLabel value="#{activity.weight()}"/></f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{activity.weight()}" style="width:100%" label="Name"/>
+                            <p:inputText value="#{activity.weight()}" style="width:100%" label="Weight"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -73,17 +80,15 @@
                             <p:outputLabel value="#{activity.duration()}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{activity.duration()}" style="width:100%" label="Name"/>
+                            <p:inputText value="#{activity.duration()}" style="width:100%" label="Duration"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
                 <p:column headerText="Edit" style="width:5rem" >
-                    <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row" />
+                    <p:rowEditor />
                 </p:column>
                 <p:column headerText="Delete" style="width:4rem">
-                    <p:commandButton process="@this" icon="pi pi-trash" styleClass="rounded-button ui-button-warning"
-                                      ajax="true" oncomplete="PF('confirmDelDriver').show()">
-                    </p:commandButton>
+
                 </p:column>
             </p:dataTable>
         </h:form>

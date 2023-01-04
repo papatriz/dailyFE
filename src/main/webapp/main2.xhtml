@@ -106,11 +106,15 @@
       </h:form>
    <!-- ===================== ACTIVITIES MANAGER ====================== -->
    <p:panel id="manageActivitiesPanel" header="Today activities" style="width: 75%; margin: auto;" toggleable="true" collapsed="true" toggleableHeader="true" toggleSpeed="200">
+      <div id="activities">
       <h:form id="activitiesForm">
          <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
                       var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"
-                      widgetVar="activityList" editable="true">
-            <p:ajax event="rowEdit"  update="messages"/>
+                      widgetVar="activityList" editable="true" editMode="row">
+            <p:ajax event="rowEdit" listener="#{mainController.onRowEdit2}" update="messages"/>
+            <p:ajax event="rowEditCancel" listener="#{mainController.onRowCancel}" update="messages"/>
+
+
             <p:column sortBy="#{activity.title()}" headerText="Activity Name">
                <p:cellEditor>
                   <f:facet name="output">
@@ -153,6 +157,7 @@
             </p:column>
          </p:dataTable>
       </h:form>
+      </div>
    </p:panel>
 
 </h:body>
