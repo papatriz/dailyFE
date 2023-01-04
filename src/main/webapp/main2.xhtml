@@ -61,12 +61,12 @@
 
       <h:form id="checkForm">
          <p:dataTable id="checkDT" reflow="true" rowExpandMode="single" rowHover="true"
-                      var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"
+                      var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id}"
                       widgetVar="activityList" showGridlines="true" style="width: 75%; margin: auto;">
             <p:column headerText="Activity Name" style="width: auto; margin: fill">
                <p:toolbar style="background-color: inherit; margin: auto; padding: 0; border-width: 0">
                   <p:toolbarGroup>
-                     <p:outputLabel value="#{activity.title()}"/>
+                     <p:outputLabel value="#{activity.title}"/>
                   </p:toolbarGroup>
                   <p:toolbarGroup>
                      <p:button icon="pi pi-check" styleClass="ui-button-outlined  ui-button-success" />
@@ -75,32 +75,32 @@
             </p:column>
 
             <p:column headerText="#{mainController.getDateRepresent(-6)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -6) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.id(), -6)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -6) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.getId(), -6)? 'Done' : 'Miss'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-5)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -5) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.id(), -5)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -5) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.getId(), -5)? 'Done' : 'Miss'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-4)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -4) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.id(), -4)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -4) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.getId(), -4)? 'Done' : 'Miss'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-3)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -3) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.id(), -3)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -3) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.getId(), -3)? 'Done' : 'Miss'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-2)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -2) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.id(), -2)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -2) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.getId(), -2)? 'Done' : 'Miss'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-1)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), -1) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.id(), -1)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -1) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.getId(), -1)? 'Done' : 'Miss'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(0)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.id(), 0) ? 'yellowgreen' : 'lightgray'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.id(), 0)? 'Done' : 'Wait'}" />
+               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), 0) ? 'yellowgreen' : 'lightgray'}; padding-top:14px; padding-bottom:14px;"
+                              value="#{mainController.isActivityComplete(activity.getId(), 0)? 'Done' : 'Wait'}" />
             </p:column>
          </p:dataTable>
       </h:form>
@@ -109,18 +109,18 @@
       <div id="activities">
       <h:form id="activitiesForm">
          <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
-                      var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.id()}"
+                      var="activity" value="#{mainController.getActivities()}"  rowKey="#{activity.getId()}"
                       widgetVar="activityList" editable="true" editMode="row">
-            <p:ajax event="rowEdit" listener="#{mainController.onRowEdit2}" update="messages"/>
+            <p:ajax event="rowEdit" listener="#{mainController.onRowEdit}" update="messages"/>
             <p:ajax event="rowEditCancel" listener="#{mainController.onRowCancel}" update="messages"/>
 
 
-            <p:column sortBy="#{activity.title()}" headerText="Activity Name">
+            <p:column sortBy="#{activity.title}" headerText="Activity Name">
                <p:cellEditor>
                   <f:facet name="output">
-                     <p:outputLabel value="#{activity.title()}"/></f:facet>
+                     <p:outputLabel value="#{activity.title}"/></f:facet>
                   <f:facet name="input">
-                     <p:inputText value="#{activity.title()}" style="width:100%;" label="Name"/>
+                     <p:inputText value="#{activity.title}" style="width:100%;" label="Name"/>
                   </f:facet>
                </p:cellEditor>
             </p:column>
@@ -128,22 +128,22 @@
                <p:progressBar value="50" labelTemplate="{value}%" displayOnly="true"  />
 
             </p:column>
-            <p:column sortBy="#{activity.weight()}" headerText="Weight">
+            <p:column sortBy="#{activity.weight}" headerText="Weight">
                <p:cellEditor>
                   <f:facet name="output">
-                     <p:outputLabel value="#{activity.weight()}"/></f:facet>
+                     <p:outputLabel value="#{activity.weight}"/></f:facet>
                   <f:facet name="input">
-                     <p:inputText value="#{activity.weight()}" style="width:100%" label="Name"/>
+                     <p:inputText value="#{activity.weight}" style="width:100%" label="Name"/>
                   </f:facet>
                </p:cellEditor>
             </p:column>
-            <p:column sortBy="#{activity.duration()}" headerText="Duration">
+            <p:column sortBy="#{activity.duration}" headerText="Duration">
                <p:cellEditor>
                   <f:facet name="output">
-                     <p:outputLabel value="#{activity.duration()}"/>
+                     <p:outputLabel value="#{activity.duration}"/>
                   </f:facet>
                   <f:facet name="input">
-                     <p:inputText value="#{activity.duration()}" style="width:100%" label="Name"/>
+                     <p:inputText value="#{activity.duration}" style="width:100%" label="Name"/>
                   </f:facet>
                </p:cellEditor>
             </p:column>
