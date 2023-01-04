@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +23,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -35,15 +40,18 @@ public class MainController {
     private RestApi api;
     private LocalDate startDate;
 
+    private List<ActivityDto> activityList;
+
     @PostConstruct
     private void init() {
         var url = api.getUrlFor(ApiAction.GetUserData);
         userData = restTemplate.getForObject(url, UserDto.class);
         startDate = LocalDate.now();
+        activityList = Arrays.stream(getActivities()).toList();
         logger.info("Get user data from remote server: "+userData);
     }
 
-    public ActivityDto[] getActivities() {
+    private ActivityDto[] getActivities() {
         var url = api.getUrlFor(ApiAction.GetActivityList);
 
         return restTemplate.getForObject(url, ActivityDto[].class);
@@ -68,8 +76,14 @@ public class MainController {
     }
 
     public void onRowEdit(RowEditEvent<ActivityDto> event) {
-        logger.info("OnRowEdit");
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ event.getObject().getId() +" edited", "");
+        logger.info("OnRowEdit: %s".formatted(event.getObject()));
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        var request = new HttpEntity<>(event.getObject(), headers);
+        var url=api.getUrlFor(ApiAction.EditActivity);
+        var response = restTemplate.postForObject(url, request, String.class);
+        activityList = Arrays.stream(getActivities()).toList();
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ response +" edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
