@@ -69,14 +69,14 @@ public class MainController {
 
     public void onRowEdit(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowEdit");
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ event.getObject().id() +" edited", "");
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ event.getObject().getId() +" edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
 
     public void onRowCancel(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowCancel");
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ event.getObject().id() +" edited", "");
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ event.getObject().getId() +" edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
