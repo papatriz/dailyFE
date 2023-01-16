@@ -102,6 +102,12 @@
                <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), 0) ? 'yellowgreen' : 'lightgray'}; padding-top:14px; padding-bottom:14px;"
                               value="#{mainController.isActivityComplete(activity.getId(), 0)? 'Done' : 'Wait'}" />
             </p:column>
+
+            <f:facet name="footer">
+               <span style="display: flex; justify-content: flex-end">
+                  <p:button id="add"  value="Add activity" icon="pi pi-plus" disabled="false" styleClass="ui-button-secondary" />
+               </span>
+            </f:facet>
          </p:dataTable>
       </h:form>
    <!-- ===================== ACTIVITIES MANAGER ====================== -->
@@ -113,7 +119,6 @@
                       widgetVar="activityList" editable="true" editMode="row">
             <p:ajax event="rowEdit" listener="#{mainController.onRowEdit}" update="messages"/>
             <p:ajax event="rowEditCancel" listener="#{mainController.onRowCancel}" update="messages"/>
-
 
             <p:column sortBy="#{activity.title}" headerText="Activity Name">
                <p:cellEditor>

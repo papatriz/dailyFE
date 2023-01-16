@@ -6,6 +6,7 @@ import com.papatriz.dailyfe.dto.ActivityDto;
 import com.papatriz.dailyfe.dto.UserDto;
 import lombok.Getter;
 import org.ocpsoft.rewrite.el.ELBeanName;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,15 +83,20 @@ public class MainController {
         var request = new HttpEntity<>(event.getObject(), headers);
         var url=api.getUrlFor(ApiAction.EditActivity);
         var response = restTemplate.postForObject(url, request, String.class);
-        activityList = Arrays.stream(getActivities()).toList();
+        logger.info("Response: "+response);
+      //  activityList = Arrays.stream(getActivities()).toList();
+
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ response +" edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+
+      //  PrimeFaces.current().ajax().update("activitiesForm");
+
 
     }
 
     public void onRowCancel(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowCancel");
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ event.getObject().getId() +" edited", "");
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Cancel edit", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }

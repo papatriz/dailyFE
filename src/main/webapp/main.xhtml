@@ -51,7 +51,6 @@
                 <p:ajax event="rowEdit" listener="#{mainController.onRowEdit}" update="messages"/>
                 <p:ajax event="rowEditCancel" listener="#{mainController.onRowCancel}" update="messages"/>
 
-
                 <p:column sortBy="#{activity.title()}" headerText="Activity Name">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -88,7 +87,6 @@
                     <p:rowEditor />
                 </p:column>
                 <p:column headerText="Delete" style="width:4rem">
-
                 </p:column>
             </p:dataTable>
         </h:form>
