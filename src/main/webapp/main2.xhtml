@@ -166,6 +166,8 @@
       </h:form>
       </div>
    </p:panel>
+   <h:form id="addForm">
+
    <p:dialog header="Add new activity" widgetVar="addDialog" minHeight="40" width="438" showEffect="fade">
       <p:panelGrid>
          <p:row>
@@ -173,7 +175,7 @@
                <p:outputLabel value="Name:"/>
             </p:column>
             <p:column colspan="3">
-               <p:inputText value="#{activity.title}" style="width:100%;" label="Name"/>
+               <p:inputText value="#{mainController.newActivity.title}" style="width:100%;" label="Name"/>
             </p:column>
          </p:row>
          <p:row>
@@ -181,21 +183,22 @@
                <p:outputLabel value="Duration:"/>
             </p:column>
             <p:column>
-               <p:inputText value="#{activity.duration}" style="width:4rem" label="Duration"/>
+               <p:inputText value="#{mainController.newActivity.duration}" style="width:4rem" label="Duration"/>
             </p:column>
             <p:column >
                <p:outputLabel value="Weight:"/>
             </p:column>
             <p:column>
-               <p:inputText value="#{activity.weight}" style="width:4rem" label="Weight"/>
+               <p:inputText value="#{mainController.newActivity.weight}" style="width:4rem" label="Weight"/>
             </p:column>
          </p:row>
       </p:panelGrid>
       <f:facet name="footer">
          <p:commandButton type="button" value="Cancel" styleClass="ui-button-flat mr-2" style="width: 6rem" />
-         <p:commandButton type="button" value="Save" style="width: 5rem" />
+         <p:commandButton process="@this" action="#{mainController.addActivity()}" ajax="true" value="Save" style="width: 5rem" />
       </f:facet>
    </p:dialog>
+   </h:form>
 </h:body>
 
 </html>

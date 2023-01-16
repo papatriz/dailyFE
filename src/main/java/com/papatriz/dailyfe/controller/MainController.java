@@ -42,6 +42,7 @@ public class MainController {
     private LocalDate startDate;
 
     private List<ActivityDto> activityList;
+    private ActivityDto newActivity = new ActivityDto();
 
     @PostConstruct
     private void init() {
@@ -76,6 +77,16 @@ public class MainController {
         return Boolean.TRUE.equals(restTemplate.getForObject(url, Boolean.class));
     }
 
+    public void addActivity() {
+        logger.info("On Add Activity: %s".formatted(newActivity));
+
+        PrimeFaces.current().ajax().update("checkForm");
+        PrimeFaces.current().ajax().update("activitiesForm");
+
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Adding activity", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     public void onRowEdit(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowEdit: %s".formatted(event.getObject()));
         var headers = new HttpHeaders();
@@ -88,17 +99,12 @@ public class MainController {
 
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ response +" edited", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-
-      //  PrimeFaces.current().ajax().update("activitiesForm");
-
-
     }
 
     public void onRowCancel(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowCancel");
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Cancel edit", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-
     }
 
     public boolean getRandomBool() { // for test purposes only
