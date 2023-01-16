@@ -105,7 +105,8 @@
 
             <f:facet name="footer">
                <span style="display: flex; justify-content: flex-end">
-                  <p:button id="add"  value="Add activity" icon="pi pi-plus" disabled="false" styleClass="ui-button-secondary" />
+                  <p:button id="add"  value="Add activity" icon="pi pi-external-link" disabled="false"
+                            ajax="true" styleClass="ui-button-secondary" onclick="PF('addDialog').show(); return false;"/>
                </span>
             </f:facet>
          </p:dataTable>
@@ -123,17 +124,18 @@
             <p:column sortBy="#{activity.title}" headerText="Activity Name">
                <p:cellEditor>
                   <f:facet name="output">
-                     <p:outputLabel value="#{activity.title}"/></f:facet>
+                     <p:outputLabel value="#{activity.title}"/>
+                  </f:facet>
                   <f:facet name="input">
                      <p:inputText value="#{activity.title}" style="width:100%;" label="Name"/>
                   </f:facet>
                </p:cellEditor>
             </p:column>
-            <p:column headerText="Success factor">
+            <p:column headerText="Success factor" style="width: 10rem;text-align: center;">
                <p:progressBar value="50" labelTemplate="{value}%" displayOnly="true"  />
 
             </p:column>
-            <p:column sortBy="#{activity.weight}" headerText="Weight">
+            <p:column sortBy="#{activity.weight}" headerText="Weight" style="width: 6rem;text-align: center;">
                <p:cellEditor>
                   <f:facet name="output">
                      <p:outputLabel value="#{activity.weight}"/></f:facet>
@@ -142,7 +144,7 @@
                   </f:facet>
                </p:cellEditor>
             </p:column>
-            <p:column sortBy="#{activity.duration}" headerText="Duration">
+            <p:column sortBy="#{activity.duration}" headerText="Duration" style="width: 6rem;text-align: center;">
                <p:cellEditor>
                   <f:facet name="output">
                      <p:outputLabel value="#{activity.duration}"/>
@@ -155,7 +157,7 @@
             <p:column headerText="Edit" style="width:5rem" >
                <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row" />
             </p:column>
-            <p:column headerText="Delete" style="width:4rem">
+            <p:column headerText="Delete" style="width:4rem;text-align: center;">
                <p:commandButton process="@this" icon="pi pi-trash" styleClass="rounded-button ui-button-secondary ui-button-outlined"
                                 ajax="true" oncomplete="PF('confirmDelDriver').show()">
                </p:commandButton>
@@ -164,7 +166,36 @@
       </h:form>
       </div>
    </p:panel>
-
+   <p:dialog header="Add new activity" widgetVar="addDialog" minHeight="40" width="438" showEffect="fade">
+      <p:panelGrid>
+         <p:row>
+            <p:column>
+               <p:outputLabel value="Name:"/>
+            </p:column>
+            <p:column colspan="3">
+               <p:inputText value="#{activity.title}" style="width:100%;" label="Name"/>
+            </p:column>
+         </p:row>
+         <p:row>
+            <p:column >
+               <p:outputLabel value="Duration:"/>
+            </p:column>
+            <p:column>
+               <p:inputText value="#{activity.duration}" style="width:4rem" label="Duration"/>
+            </p:column>
+            <p:column >
+               <p:outputLabel value="Weight:"/>
+            </p:column>
+            <p:column>
+               <p:inputText value="#{activity.weight}" style="width:4rem" label="Weight"/>
+            </p:column>
+         </p:row>
+      </p:panelGrid>
+      <f:facet name="footer">
+         <p:commandButton type="button" value="Cancel" styleClass="ui-button-flat mr-2" style="width: 6rem" />
+         <p:commandButton type="button" value="Save" style="width: 5rem" />
+      </f:facet>
+   </p:dialog>
 </h:body>
 
 </html>
