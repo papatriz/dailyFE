@@ -5,18 +5,17 @@ import com.papatriz.dailyfe.api.RestApi;
 import com.papatriz.dailyfe.dto.ActivityDto;
 import com.papatriz.dailyfe.dto.UserDto;
 import lombok.Getter;
+import lombok.Setter;
 import org.ocpsoft.rewrite.el.ELBeanName;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +25,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Scope(value = "session")
@@ -42,6 +40,7 @@ public class MainController {
     private LocalDate startDate;
 
     private List<ActivityDto> activityList;
+    @Setter
     private ActivityDto newActivity = new ActivityDto();
 
     @PostConstruct
@@ -50,6 +49,7 @@ public class MainController {
         userData = restTemplate.getForObject(url, UserDto.class);
         startDate = LocalDate.now();
         activityList = Arrays.stream(getActivities()).toList();
+        newActivity.setWeight((short) 1);
         logger.info("Get user data from remote server: "+userData);
     }
 
@@ -73,18 +73,34 @@ public class MainController {
         var url = urlTemplate.replace("{id}", String.valueOf(activityId))
                                      .replace("{date}", targetDate.format(formatter));
 
-        logger.info("Check activity completion by URL: "+url);
         return Boolean.TRUE.equals(restTemplate.getForObject(url, Boolean.class));
     }
 
     public void addActivity() {
         logger.info("On Add Activity: %s".formatted(newActivity));
+        String response = "";
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        var request = new HttpEntity<>(newActivity, headers);
+        var url=api.getUrlFor(ApiAction.SaveNewActivity);
+
+        try {
+            response = restTemplate.postForObject(url, request, String.class);
+        }
+        catch (HttpStatusCodeException e) {
+            logger.info("Catch exception: "+e.getStatusCode()+" "+e.getResponseBodyAsString());
+            showMessage("Error: \n"+e.getResponseBodyAsString().replace("\n","; "), true);
+            return;
+        }
+
+        PrimeFaces.current().executeScript("PF('addDialog').hide();");
+        newActivity = new ActivityDto();
 
         PrimeFaces.current().ajax().update("checkForm");
         PrimeFaces.current().ajax().update("activitiesForm");
 
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Adding activity", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        showMessage("Activity added");
+        logger.info("Add activity response: "+response);
     }
 
     public void onRowEdit(RowEditEvent<ActivityDto> event) {
@@ -93,18 +109,22 @@ public class MainController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         var request = new HttpEntity<>(event.getObject(), headers);
         var url=api.getUrlFor(ApiAction.EditActivity);
-        var response = restTemplate.postForObject(url, request, String.class);
-        logger.info("Response: "+response);
-      //  activityList = Arrays.stream(getActivities()).toList();
+        restTemplate.put(url, request);
 
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Activity "+ response +" edited", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        showMessage("Activity "+ event.getObject().getTitle() +" edited");
     }
 
     public void onRowCancel(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowCancel");
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Cancel edit", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        showMessage("Cancel edit");
+    }
+
+    private void showMessage(String message, boolean... isError) {
+
+        var isInfo = isError.length == 0;
+        if (!isInfo) isInfo = !isError[0];
+        FacesMessage.Severity severity = isInfo? FacesMessage.SEVERITY_INFO : FacesMessage.SEVERITY_ERROR;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, message, ""));
     }
 
     public boolean getRandomBool() { // for test purposes only
