@@ -78,7 +78,7 @@ public class MainController {
 
     public void addActivity() {
         logger.info("On Add Activity: %s".formatted(newActivity));
-        String response = "";
+        String response;
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         var request = new HttpEntity<>(newActivity, headers);
@@ -95,9 +95,10 @@ public class MainController {
 
         PrimeFaces.current().executeScript("PF('addDialog').hide();");
         newActivity = new ActivityDto();
+        newActivity.setWeight((short) 1);
+        activityList = Arrays.stream(getActivities()).toList();
 
-        PrimeFaces.current().ajax().update("checkForm");
-        PrimeFaces.current().ajax().update("activitiesForm");
+        PrimeFaces.current().ajax().update("checkForm", "activitiesForm", "addForm");
 
         showMessage("Activity added");
         logger.info("Add activity response: "+response);
@@ -116,7 +117,7 @@ public class MainController {
 
     public void onRowCancel(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowCancel");
-        showMessage("Cancel edit");
+        showMessage("Editing canceled");
     }
 
     private void showMessage(String message, boolean... isError) {
