@@ -4,6 +4,7 @@ import com.papatriz.dailyfe.api.ApiAction;
 import com.papatriz.dailyfe.api.RestApi;
 import com.papatriz.dailyfe.dto.ActivityDto;
 import com.papatriz.dailyfe.dto.UserDto;
+import com.papatriz.dailyfe.model.EState;
 import lombok.Getter;
 import lombok.Setter;
 import org.ocpsoft.rewrite.el.ELBeanName;
@@ -66,17 +67,28 @@ public class MainController {
        return targetDate.format(formatter);
     }
 
-    public boolean isActivityComplete(long activityId, int dateShift) {
-        var urlTemplate = api.getUrlFor(ApiAction.IsActivityComplete);
+    public EState getActivityState(ActivityDto activity, int dateShift) {
+        var checkedDate = startDate.plusDays(dateShift);
+        if (checkedDate.isAfter(LocalDate.now())) return EState.AWAITED;
+        if(activity.getStartDate().isAfter(checkedDate)) return EState.NOT_STARTED;
 
-        var targetDate = startDate.plusDays(dateShift);
+        var complete = isActivityComplete(activity,checkedDate);
+
+        if (complete) return EState.COMPLETED;
+        if (checkedDate.isEqual(LocalDate.now())) return EState.AWAITED;
+
+        return EState.FAILED;
+    }
+
+    private boolean isActivityComplete(ActivityDto activity, LocalDate checkedDate) {
+
+        var urlTemplate = api.getUrlFor(ApiAction.IsActivityComplete);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        var url = urlTemplate.replace("{id}", String.valueOf(activityId))
-                                     .replace("{date}", targetDate.format(formatter));
+        var url = urlTemplate.replace("{id}", String.valueOf(activity.getId()))
+                .replace("{date}", checkedDate.format(formatter));
 
         return Boolean.TRUE.equals(restTemplate.getForObject(url, Boolean.class));
     }
-
     public void addActivity() {
         logger.info("On Add Activity: %s".formatted(newActivity));
         String response;

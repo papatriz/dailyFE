@@ -75,32 +75,67 @@
             </p:column>
 
             <p:column headerText="#{mainController.getDateRepresent(-6)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -6) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.getId(), -6)? 'Done' : 'Miss'}" />
+             <p:outputLabel style="display: block; padding-top:14px; padding-bottom:14px;
+               background-color: #{mainController.getActivityState(activity, -6) =='NOT_STARTED' ? 'white':
+                                   mainController.getActivityState(activity, -6) =='COMPLETED' ? 'yellowgreen':
+                                   mainController.getActivityState(activity, -6) =='FAILED' ? 'salmon' : 'lightgray'};"
+                value="#{mainController.getActivityState(activity, -6) =='NOT_STARTED' ? 'n/a':
+                         mainController.getActivityState(activity, -6) =='COMPLETED' ? 'Done':
+                         mainController.getActivityState(activity, -6) =='FAILED' ? 'Fail' : 'Wait'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-5)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -5) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.getId(), -5)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; padding-top:14px; padding-bottom:14px;
+               background-color: #{mainController.getActivityState(activity, -5) =='NOT_STARTED' ? 'white':
+                                   mainController.getActivityState(activity, -5) =='COMPLETED' ? 'yellowgreen':
+                                   mainController.getActivityState(activity, -5) =='FAILED' ? 'salmon' : 'lightgray'};"
+                              value="#{mainController.getActivityState(activity, -5) =='NOT_STARTED' ? 'n/a':
+                         mainController.getActivityState(activity, -5) =='COMPLETED' ? 'Done':
+                         mainController.getActivityState(activity, -5) =='FAILED' ? 'Fail' : 'Wait'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-4)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -4) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.getId(), -4)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; padding-top:14px; padding-bottom:14px;
+               background-color: #{mainController.getActivityState(activity, -4) =='NOT_STARTED' ? 'white':
+                                   mainController.getActivityState(activity, -4) =='COMPLETED' ? 'yellowgreen':
+                                   mainController.getActivityState(activity, -4) =='FAILED' ? 'salmon' : 'lightgray'};"
+                              value="#{mainController.getActivityState(activity, -4) =='NOT_STARTED' ? 'n/a':
+                         mainController.getActivityState(activity, -4) =='COMPLETED' ? 'Done':
+                         mainController.getActivityState(activity, -4) =='FAILED' ? 'Fail' : 'Wait'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-3)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -3) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.getId(), -3)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; padding-top:14px; padding-bottom:14px;
+               background-color: #{mainController.getActivityState(activity, -3) =='NOT_STARTED' ? 'white':
+                                   mainController.getActivityState(activity, -3) =='COMPLETED' ? 'yellowgreen':
+                                   mainController.getActivityState(activity, -3) =='FAILED' ? 'salmon' : 'lightgray'};"
+                              value="#{mainController.getActivityState(activity, -3) =='NOT_STARTED' ? 'n/a':
+                         mainController.getActivityState(activity, -3) =='COMPLETED' ? 'Done':
+                         mainController.getActivityState(activity, -3) =='FAILED' ? 'Fail' : 'Wait'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-2)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -2) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.getId(), -2)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; padding-top:14px; padding-bottom:14px;
+               background-color: #{mainController.getActivityState(activity, -2) =='NOT_STARTED' ? 'white':
+                                   mainController.getActivityState(activity, -2) =='COMPLETED' ? 'yellowgreen':
+                                   mainController.getActivityState(activity, -2) =='FAILED' ? 'salmon' : 'lightgray'};"
+                              value="#{mainController.getActivityState(activity, -2) =='NOT_STARTED' ? 'n/a':
+                         mainController.getActivityState(activity, -2) =='COMPLETED' ? 'Done':
+                         mainController.getActivityState(activity, -2) =='FAILED' ? 'Fail' : 'Wait'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(-1)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -1) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.getId(), -1)? 'Done' : 'Miss'}" />
+               <p:outputLabel style="display: block; padding-top:14px; padding-bottom:14px;
+               background-color: #{mainController.getActivityState(activity, -1) =='NOT_STARTED' ? 'white':
+                                   mainController.getActivityState(activity, -1) =='COMPLETED' ? 'yellowgreen':
+                                   mainController.getActivityState(activity, -1) =='FAILED' ? 'salmon' : 'lightgray'};"
+                              value="#{mainController.getActivityState(activity, -1) =='NOT_STARTED' ? 'n/a':
+                         mainController.getActivityState(activity, -1) =='COMPLETED' ? 'Done':
+                         mainController.getActivityState(activity, -1) =='FAILED' ? 'Fail' : 'Wait'}" />
             </p:column>
             <p:column headerText="#{mainController.getDateRepresent(0)}" style="width: 6rem; text-align: center; padding: 2px">
-               <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), 0) ? 'yellowgreen' : 'lightgray'}; padding-top:14px; padding-bottom:14px;"
-                              value="#{mainController.isActivityComplete(activity.getId(), 0)? 'Done' : 'Wait'}" />
+               <p:outputLabel style="display: block; padding-top:14px; padding-bottom:14px;
+               background-color: #{mainController.getActivityState(activity, 0) =='NOT_STARTED' ? 'white':
+                                   mainController.getActivityState(activity, 0) =='COMPLETED' ? 'yellowgreen':
+                                   mainController.getActivityState(activity, 0) =='FAILED' ? 'salmon' : 'lightgray'};"
+                              value="#{mainController.getActivityState(activity, 0) =='NOT_STARTED' ? 'n/a':
+                         mainController.getActivityState(activity, 0) =='COMPLETED' ? 'Done':
+                         mainController.getActivityState(activity, 0) =='FAILED' ? 'Fail' : 'Wait'}" />
             </p:column>
 
             <f:facet name="footer">
@@ -111,6 +146,7 @@
             </f:facet>
          </p:dataTable>
       </h:form>
+
    <!-- ===================== ACTIVITIES MANAGER ====================== -->
    <p:panel id="manageActivitiesPanel" header="Today activities" style="width: 75%; margin: auto;" toggleable="true" collapsed="true" toggleableHeader="true" toggleSpeed="200">
       <div id="activities">

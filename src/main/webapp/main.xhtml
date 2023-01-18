@@ -92,6 +92,31 @@
         </h:form>
     </p:panel>
 </h:body>
+<p:column headerText="#{mainController.getDateRepresent(-5)}" style="width: 6rem; text-align: center; padding: 2px">
+    <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -5) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                   value="#{mainController.isActivityComplete(activity.getId(), -5)? 'Done' : 'Miss'}" />
+</p:column>
+<p:column headerText="#{mainController.getDateRepresent(-4)}" style="width: 6rem; text-align: center; padding: 2px">
+    <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -4) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                   value="#{mainController.isActivityComplete(activity.getId(), -4)? 'Done' : 'Miss'}" />
+</p:column>
+<p:column headerText="#{mainController.getDateRepresent(-3)}" style="width: 6rem; text-align: center; padding: 2px">
+    <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -3) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                   value="#{mainController.isActivityComplete(activity.getId(), -3)? 'Done' : 'Miss'}" />
+</p:column>
+<p:column headerText="#{mainController.getDateRepresent(-2)}" style="width: 6rem; text-align: center; padding: 2px">
+    <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -2) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                   value="#{mainController.isActivityComplete(activity.getId(), -2)? 'Done' : 'Miss'}" />
+</p:column>
+<p:column headerText="#{mainController.getDateRepresent(-1)}" style="width: 6rem; text-align: center; padding: 2px">
+    <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), -1) ? 'yellowgreen' : 'salmon'}; padding-top:14px; padding-bottom:14px;"
+                   value="#{mainController.isActivityComplete(activity.getId(), -1)? 'Done' : 'Miss'}" />
+</p:column>
+<p:column headerText="#{mainController.getDateRepresent(0)}" style="width: 6rem; text-align: center; padding: 2px">
+    <p:outputLabel style="display: block; background-color: #{mainController.isActivityComplete(activity.getId(), 0) ? 'yellowgreen' : 'lightgray'}; padding-top:14px; padding-bottom:14px;"
+                   value="#{mainController.isActivityComplete(activity.getId(), 0)? 'Done' : 'Wait'}" />
+</p:column>
+
 
 </html>
 
