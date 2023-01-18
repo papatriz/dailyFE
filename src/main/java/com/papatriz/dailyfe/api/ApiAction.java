@@ -6,5 +6,6 @@ public enum ApiAction {
     IsActivityComplete,
     EditActivity,
     SaveNewActivity,
-    DeleteActivity
+    DeleteActivity,
+    CompleteActivity
 }

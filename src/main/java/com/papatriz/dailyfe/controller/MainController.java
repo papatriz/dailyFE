@@ -55,10 +55,14 @@ public class MainController {
         logger.info("Get user data from remote server: "+userData);
     }
 
-    private ActivityDto[] getActivities() {
-        var url = api.getUrlFor(ApiAction.GetActivityList);
+    public void completeActivity(ActivityDto activity) {
+        var urlTemplate = api.getUrlFor(ApiAction.CompleteActivity);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        var url = urlTemplate.replace("{id}", String.valueOf(activity.getId()))
+                .replace("{date}", LocalDate.now().format(formatter));
+        String response = restTemplate.postForObject(url, null, String.class);
 
-        return restTemplate.getForObject(url, ActivityDto[].class);
+        logger.info("Complete activity, remote server response: "+response);
     }
 
     public String getDateRepresent(int dateShift) {
@@ -80,15 +84,6 @@ public class MainController {
         return EState.FAILED;
     }
 
-    private boolean isActivityComplete(ActivityDto activity, LocalDate checkedDate) {
-
-        var urlTemplate = api.getUrlFor(ApiAction.IsActivityComplete);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        var url = urlTemplate.replace("{id}", String.valueOf(activity.getId()))
-                .replace("{date}", checkedDate.format(formatter));
-
-        return Boolean.TRUE.equals(restTemplate.getForObject(url, Boolean.class));
-    }
     public void addActivity() {
         logger.info("On Add Activity: %s".formatted(newActivity));
         String response;
@@ -137,13 +132,29 @@ public class MainController {
         activityList = Arrays.stream(getActivities()).toList();
         PrimeFaces.current().ajax().update("checkForm", "activitiesForm");
     }
+
     public void selectActivity(ActivityDto activity) {
         selectedActivity = activity;
     }
 
-    public void onRowCancel(RowEditEvent<ActivityDto> event) {
-        logger.info("OnRowCancel");
+    public void onRowCancel(RowEditEvent<ActivityDto> event) { //toDo: remove, this is not necessary
         showMessage("Editing canceled");
+    }
+
+    // ================ PRIVATE AND UTIL METHODS ================
+    private ActivityDto[] getActivities() {
+        var url = api.getUrlFor(ApiAction.GetActivityList);
+
+        return restTemplate.getForObject(url, ActivityDto[].class);
+    }
+    private boolean isActivityComplete(ActivityDto activity, LocalDate checkedDate) {
+
+        var urlTemplate = api.getUrlFor(ApiAction.IsActivityComplete);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        var url = urlTemplate.replace("{id}", String.valueOf(activity.getId()))
+                .replace("{date}", checkedDate.format(formatter));
+
+        return Boolean.TRUE.equals(restTemplate.getForObject(url, Boolean.class));
     }
 
     private void showMessage(String message, boolean... isError) {
@@ -153,7 +164,7 @@ public class MainController {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, message, ""));
     }
 
-    public boolean getRandomBool() { // for test purposes only
+    public boolean getRandomBool() { //toDo: for test purposes only, remove
         var time = System.nanoTime();
         return time % 2 == 0;
     }

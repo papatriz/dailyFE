@@ -69,7 +69,7 @@
                      <p:outputLabel value="#{activity.title}"/>
                   </p:toolbarGroup>
                   <p:toolbarGroup>
-                     <p:button icon="pi pi-check" styleClass="ui-button-outlined  ui-button-success" />
+                     <p:commandButton action="#{mainController.completeActivity(activity)}" ajax="true" process="@this" update="checkForm" icon="pi pi-check" styleClass="ui-button-outlined  ui-button-success" />
                   </p:toolbarGroup>
                </p:toolbar>
             </p:column>
