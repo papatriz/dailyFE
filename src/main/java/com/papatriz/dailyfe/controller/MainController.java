@@ -42,6 +42,7 @@ public class MainController {
     private List<ActivityDto> activityList;
     @Setter
     private ActivityDto newActivity = new ActivityDto();
+    private ActivityDto selectedActivity;
 
     @PostConstruct
     private void init() {
@@ -79,8 +80,10 @@ public class MainController {
     public void addActivity() {
         logger.info("On Add Activity: %s".formatted(newActivity));
         String response;
+
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
         var request = new HttpEntity<>(newActivity, headers);
         var url=api.getUrlFor(ApiAction.SaveNewActivity);
 
@@ -96,8 +99,8 @@ public class MainController {
         PrimeFaces.current().executeScript("PF('addDialog').hide();");
         newActivity = new ActivityDto();
         newActivity.setWeight((short) 1);
-        activityList = Arrays.stream(getActivities()).toList();
 
+        activityList = Arrays.stream(getActivities()).toList();
         PrimeFaces.current().ajax().update("checkForm", "activitiesForm", "addForm");
 
         showMessage("Activity added");
@@ -115,13 +118,23 @@ public class MainController {
         showMessage("Activity "+ event.getObject().getTitle() +" edited");
     }
 
+    public void deleteSelectedActivity() {
+        var urlTemplate = api.getUrlFor(ApiAction.DeleteActivity);
+        var url = urlTemplate.replace("{id}", String.valueOf(selectedActivity.getId()));
+        restTemplate.delete(url);
+        activityList = Arrays.stream(getActivities()).toList();
+        PrimeFaces.current().ajax().update("checkForm", "activitiesForm");
+    }
+    public void selectActivity(ActivityDto activity) {
+        selectedActivity = activity;
+    }
+
     public void onRowCancel(RowEditEvent<ActivityDto> event) {
         logger.info("OnRowCancel");
         showMessage("Editing canceled");
     }
 
     private void showMessage(String message, boolean... isError) {
-
         var isInfo = isError.length == 0;
         if (!isInfo) isInfo = !isError[0];
         FacesMessage.Severity severity = isInfo? FacesMessage.SEVERITY_INFO : FacesMessage.SEVERITY_ERROR;

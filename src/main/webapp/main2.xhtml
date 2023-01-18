@@ -158,8 +158,8 @@
                <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row" />
             </p:column>
             <p:column headerText="Delete" style="width:4rem;text-align: center;">
-               <p:commandButton process="@this" icon="pi pi-trash" styleClass="rounded-button ui-button-secondary ui-button-outlined"
-                                ajax="true" oncomplete="PF('confirmDelDriver').show()">
+               <p:commandButton process="@this" ajax="true" icon="pi pi-trash" styleClass="rounded-button ui-button-secondary ui-button-outlined"
+                                action="#{mainController.selectActivity(activity)}"  oncomplete="PF('confirmDelete').show()">
                </p:commandButton>
             </p:column>
          </p:dataTable>
@@ -199,6 +199,10 @@
       </f:facet>
    </p:dialog>
    </h:form>
+   <p:confirmDialog message="Are you sure?" header="Deleting activity" severity="alert" widgetVar="confirmDelete">
+      <p:commandButton process="activitiesForm" value="Delete" action="#{mainController.deleteSelectedActivity()}" oncomplete="PF('confirmDelete').hide()"/>
+      <p:commandButton value="Cancel" onclick="PF('confirmDelete').hide();" type="button" />
+   </p:confirmDialog>
 </h:body>
 
 </html>
