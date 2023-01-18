@@ -154,7 +154,7 @@
          <p:dataTable id="activitiesDT" reflow="true" rowExpandMode="single" rowHover="true"
                       var="activity" value="#{mainController.activityList}"  rowKey="#{activity.getId()}"
                       widgetVar="activityList" editable="true" editMode="row">
-            <p:ajax event="rowEdit" listener="#{mainController.onRowEdit}" update="messages"/>
+            <p:ajax event="rowEdit" listener="#{mainController.onRowEdit}" />
             <p:ajax event="rowEditCancel" listener="#{mainController.onRowCancel}" update="messages"/>
 
             <p:column sortBy="#{activity.title}" headerText="Activity Name">

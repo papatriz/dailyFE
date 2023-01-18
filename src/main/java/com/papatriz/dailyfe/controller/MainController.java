@@ -121,6 +121,9 @@ public class MainController {
         var request = new HttpEntity<>(event.getObject(), headers);
         var url=api.getUrlFor(ApiAction.EditActivity);
         restTemplate.put(url, request);
+        // toDo: ajax updating after inline editing break down activity dataTable (both input and output facets shown,
+        //  rowEditor UI disappears. Have to find solution or workaround.
+        // PrimeFaces.current().ajax().update(":checkForm:checkDT");
 
         showMessage("Activity "+ event.getObject().getTitle() +" edited");
     }
